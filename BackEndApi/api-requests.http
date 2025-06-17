@@ -1,0 +1,158 @@
+### ===============================
+### API CRUD - Personas y Mascotas
+### ===============================
+
+@baseUrl = https://localhost:7075
+@personId = {{personId}}
+@petId = {{petId}}
+
+### =============
+### HEALTH CHECK
+### =============
+
+### Health Check
+GET {{baseUrl}}/health
+
+### =============
+### PERSONS CRUD
+### =============
+
+### Obtener todas las personas
+GET {{baseUrl}}/api/persons
+
+### Obtener persona por ID
+GET {{baseUrl}}/api/persons/{{personId}}
+
+### Crear nueva persona
+POST {{baseUrl}}/api/persons
+Content-Type: application/json
+
+{
+  "firstName": "Juan",
+  "lastName": "Pérez",
+  "email": "juan.perez@email.com",
+  "birthDate": "1990-05-15",
+  "height": 175.5
+}
+
+### Actualizar persona
+PUT {{baseUrl}}/api/persons/{{personId}}
+Content-Type: application/json
+
+{
+  "firstName": "Juan Carlos",
+  "lastName": "Pérez García",
+  "email": "juan.carlos.perez@email.com",
+  "birthDate": "1990-05-15",
+  "height": 180.0
+}
+
+### Eliminar persona
+DELETE {{baseUrl}}/api/persons/{{personId}}
+
+### Buscar personas por nombre
+GET {{baseUrl}}/api/persons/search?searchTerm=Juan
+
+### =============
+### PETS CRUD
+### =============
+
+### Obtener todas las mascotas
+GET {{baseUrl}}/api/pets
+
+### Obtener mascota por ID
+GET {{baseUrl}}/api/pets/{{petId}}
+
+### Crear nueva mascota
+POST {{baseUrl}}/api/pets
+Content-Type: application/json
+
+{
+  "name": "Max",
+  "species": "Perro",
+  "breed": "Golden Retriever",
+  "color": "Dorado",
+  "age": 3
+}
+
+### Crear otra mascota
+POST {{baseUrl}}/api/pets
+Content-Type: application/json
+
+{
+  "name": "Luna",
+  "species": "Gato",
+  "breed": "Siamés",
+  "color": "Blanco y Negro",
+  "age": 2
+}
+
+### Actualizar mascota
+PUT {{baseUrl}}/api/pets/{{petId}}
+Content-Type: application/json
+
+{
+  "name": "Max Jr",
+  "species": "Perro",
+  "breed": "Golden Retriever",
+  "color": "Dorado Claro",
+  "age": 4
+}
+
+### Eliminar mascota
+DELETE {{baseUrl}}/api/pets/{{petId}}
+
+### Buscar mascotas por nombre
+GET {{baseUrl}}/api/pets/search?searchTerm=Max
+
+### Obtener mascotas por especie
+GET {{baseUrl}}/api/pets/species/Perro
+
+### Obtener mascotas por rango de edad
+GET {{baseUrl}}/api/pets/age-range?minAge=1&maxAge=5
+
+### =============
+### TEST VALIDATIONS
+### =============
+
+### Crear persona con email duplicado (debe fallar)
+POST {{baseUrl}}/api/persons
+Content-Type: application/json
+
+{
+  "firstName": "María",
+  "lastName": "González",
+  "email": "juan.perez@email.com",
+  "birthDate": "1985-03-20",
+  "height": 165.0
+}
+
+### Crear persona con datos inválidos (debe fallar)
+POST {{baseUrl}}/api/persons
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Test",
+  "email": "email-invalido",
+  "birthDate": "1990-05-15",
+  "height": -10
+}
+
+### Crear mascota con datos inválidos (debe fallar)
+POST {{baseUrl}}/api/pets
+Content-Type: application/json
+
+{
+  "name": "",
+  "species": "",
+  "breed": "Test",
+  "color": "Test",
+  "age": -5
+}
+
+### Obtener persona que no existe (debe fallar)
+GET {{baseUrl}}/api/persons/00000000-0000-0000-0000-000000000000
+
+### Obtener mascota que no existe (debe fallar)
+GET {{baseUrl}}/api/pets/00000000-0000-0000-0000-000000000000
