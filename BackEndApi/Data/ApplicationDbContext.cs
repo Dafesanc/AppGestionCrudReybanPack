@@ -16,7 +16,6 @@ namespace BackEndApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuración para Person
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.ToTable("Persons");
@@ -29,9 +28,7 @@ namespace BackEndApi.Data
                 entity.Property(e => e.BirthDate).HasColumnType("date");
                 entity.Property(e => e.Height).HasColumnType("decimal(5,2)");
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETDATE()");
-            });
-
-            // Configuración para Pet
+            });           
             modelBuilder.Entity<Pet>(entity =>
             {
                 entity.ToTable("Pets");
@@ -41,7 +38,6 @@ namespace BackEndApi.Data
                 entity.Property(e => e.Species).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Breed).HasMaxLength(100);
                 entity.Property(e => e.Color).HasMaxLength(50);
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETDATE()");
             });
         }
     }

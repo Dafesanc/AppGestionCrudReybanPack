@@ -40,9 +40,7 @@ namespace BackEndApi.DTOs
 
         [Range(0, 50, ErrorMessage = "La edad debe estar entre 0 y 50 años")]
         public int? Age { get; set; }
-    }
-
-    public class PetReadDto
+    }    public class PetReadDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -51,6 +49,5 @@ namespace BackEndApi.DTOs
         public string? Color { get; set; }
         public int? Age { get; set; }
         public string Description { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
     }
 }

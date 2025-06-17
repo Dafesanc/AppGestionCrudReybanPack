@@ -25,8 +25,6 @@ namespace BackEndApi.Models
         [Range(0, 50)]
         public int? Age { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
         // Propiedad calculada para información completa
         [NotMapped]
         public string Description => $"{Name} - {Species}" + 

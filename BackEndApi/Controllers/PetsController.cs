@@ -154,11 +154,8 @@ namespace BackEndApi.Controllers
                     return NotFound(ApiResponse<PetReadDto>.ErrorResult(
                         "Mascota no encontrada", 
                         $"No existe una mascota con el ID: {id}"));
-                }
-
-                var petToUpdate = _mapper.Map<Pet>(petUpdateDto);
+                }                var petToUpdate = _mapper.Map<Pet>(petUpdateDto);
                 petToUpdate.Id = id;
-                petToUpdate.CreatedAt = existingPet.CreatedAt;
 
                 var updatedPet = await _petRepository.UpdateAsync(id, petToUpdate);
                 var petDto = _mapper.Map<PetReadDto>(updatedPet);

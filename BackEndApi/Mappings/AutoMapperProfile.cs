@@ -15,16 +15,12 @@ namespace BackEndApi.Mappings
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
             CreateMap<PersonUpdateDto, Person>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
-
-            // Mapeos para Pet
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());            // Mapeos para Pet
             CreateMap<Pet, PetReadDto>();
             CreateMap<PetCreateDto, Pet>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<PetUpdateDto, Pet>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

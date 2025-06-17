@@ -2,7 +2,7 @@
 ### API CRUD - Personas y Mascotas
 ### ===============================
 
-@baseUrl = https://localhost:7075
+@baseUrl = http://localhost:5131
 @personId = {{personId}}
 @petId = {{petId}}
 
