@@ -1,0 +1,60 @@
+version: '3.8'
+
+# Docker Compose para desarrollo - Sin Nginx, con hot reload
+services:
+  # Base de datos SQL Server
+  sqlserver-dev:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: crud-api-sqlserver-dev
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=DevPassword123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1434:1433"  # Puerto diferente para no interferir con instalaciones locales
+    volumes:
+      - sqlserver_dev_data:/var/opt/mssql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - crud-api-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P DevPassword123! -Q 'SELECT 1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # API Backend para desarrollo
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build  # Solo hasta la etapa de build para desarrollo
+    container_name: crud-api-backend-dev
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-dev,1433;Database=CrudApiDB;User Id=sa;Password=DevPassword123!;TrustServerCertificate=True;MultipleActiveResultSets=true
+    ports:
+      - "8081:8080"  # Puerto diferente para desarrollo
+    depends_on:
+      sqlserver-dev:
+        condition: service_healthy
+    volumes:
+      # Mapear el código fuente para hot reload (opcional)
+      - ./BackEndApi:/app/BackEndApi
+    networks:
+      - crud-api-dev-network
+    restart: unless-stopped
+    command: ["dotnet", "watch", "run", "--project", "/app/BackEndApi", "--urls", "http://+:8080"]
+
+networks:
+  crud-api-dev-network:
+    driver: bridge
+    name: crud-api-dev-network
+
+volumes:
+  sqlserver_dev_data:
+    driver: local
+    name: crud-api-sqlserver-dev-data
